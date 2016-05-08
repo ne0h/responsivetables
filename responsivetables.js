@@ -1,6 +1,12 @@
-(function ($) {
+(function($) {
 	$.fn.responsiveTables = function() {
-		this.html(this.html().replace(/<table.*?(?=>).+/g, "").replace(/<\/table>/g, "").replace(/<tr>/g, "").replace(/<\/tr>/g, "<div style='clear: left'></div>").replace(/<tbody>/g, "").replace(/<\/tbody>/g, "").replace(/<\/td>/g, "</div>").replace(/<td.*?(?=>)/g, "<div style='float: left;'"));
-		return this;
+		var result = "", tds = $("td"), trs = $("tr").length;
+		$.each(tds, function(i, v) {
+			result += "<div class='" + $(this).attr("class") + "' style='" + $(this).attr("style") + "; float: left;'>" + $(this).html().replace(/<td.*?(?=>)/g, "") + "</div>";
+			if ((i + 1) % (tds.length / trs) == 0) {
+			result += "<div style='clear: left'></div>";
+			}
+		});
+		this.html(result); return this;
 	}
 }(jQuery));
